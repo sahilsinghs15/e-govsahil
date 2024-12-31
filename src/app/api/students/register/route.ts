@@ -5,12 +5,6 @@ import { sendEmail } from "@/helpers/mailerHelper";
 
 dbConnection();
 
-// const cookieOption : object = {
-//     secure : false,
-//     maxAge : 7 * 24 * 60 * 60 * 1000,
-//     httpOnly : true,
-// }
-
 export const POST = async(request : NextRequest)=>{
     try{
         const reqBody = await request.json();
