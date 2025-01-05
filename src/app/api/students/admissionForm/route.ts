@@ -4,6 +4,7 @@ import Student from "@/models/Student_Registration";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import User from "@/models/User";
+import Wallet from "@/models/Wallet";
 
 // export const config = {
 //   api: {
@@ -49,6 +50,11 @@ export async function POST(req: Request) {
 
     user.filledForm = true;
     await user.save();
+
+    await Wallet.create({
+      studentId : studentForm._id,
+      balance: 500,
+    });
 
     return NextResponse.json({
       message: "Form submitted successfully",

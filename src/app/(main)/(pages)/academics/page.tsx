@@ -77,12 +77,6 @@ export default function Academics() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full bg-blue-800 p-4 text-center mt-auto">
-        <p className="text-sm text-gray-300">
-          &copy; {new Date().getFullYear()} [College Name]. All rights reserved.
-        </p>
-      </footer>
     </div>
   );
 }

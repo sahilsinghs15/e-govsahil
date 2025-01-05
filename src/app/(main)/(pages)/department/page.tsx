@@ -93,12 +93,6 @@ export default function Department() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full bg-orange-600 p-4 text-center mt-auto">
-        <p className="text-sm text-gray-300">
-          &copy; {new Date().getFullYear()} [College Name]. All rights reserved.
-        </p>
-      </footer>
     </div>
   );
 }
