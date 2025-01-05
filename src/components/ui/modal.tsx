@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "./button";
-import { X } from "lucide-react"; // You can use Lucide Icons or any preferred library
-import toast from "react-hot-toast"; // Make sure to install react-hot-toast
+import { X } from "lucide-react"; // Icon library
+import toast from "react-hot-toast"; // Notification library
 import { Input } from "./input";
+import { useRouter } from "next/navigation";
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,6 +22,16 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     course: "",
     marksheet: null as File | null,
   });
+
+  const isFormIncomplete =
+    !formData.name ||
+    !formData.email ||
+    !formData.phone ||
+    !formData.dob ||
+    !formData.gender ||
+    !formData.course ||
+    !formData.marksheet;
+
   const [errors, setErrors] = useState({
     name: "",
     email: "",
@@ -29,13 +41,14 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     course: "",
     marksheet: "",
   });
+  const router = useRouter();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
-    setErrors({ ...errors, [id]: "" }); // Clear the error when the user starts typing
+    setErrors({ ...errors, [id]: "" });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,11 +75,11 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
 
     setFormData({ ...formData, marksheet: file });
-    setErrors({ ...errors, marksheet: "" }); // Clear error on valid file selection
+    setErrors({ ...errors, marksheet: "" });
   };
 
   const validateForm = () => {
-    let valid = true;
+    const valid = true;
     const newErrors: typeof errors = {
       name: "",
       email: "",
@@ -76,59 +89,54 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       course: "",
       marksheet: "",
     };
-    if (!formData.name) {
-      newErrors.name = "Name is required.";
-      valid = false;
-    }
-    if (!formData.email) {
-      newErrors.email = "Email is required.";
-      valid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email address.";
-      valid = false;
-    }
-    if (!formData.phone) {
-      newErrors.phone = "Phone number is required.";
-      valid = false;
-    }
-    if (!formData.dob) {
-      newErrors.dob = "Date of birth is required.";
-      valid = false;
-    }
-    if (!formData.gender) {
-      newErrors.gender = "Gender is required.";
-      valid = false;
-    }
-    if (!formData.course) {
-      newErrors.course = "Course selection is required.";
-      valid = false;
-    }
-    if (!formData.marksheet) {
-      newErrors.marksheet = "12th Grade Marksheet is required.";
-      valid = false;
-    }
+
+    if (!formData.name) newErrors.name = "Name is required.";
+    if (!formData.email) newErrors.email = "Email is required.";
+    if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid email.";
+    if (!formData.phone) newErrors.phone = "Phone number is required.";
+    if (!formData.dob) newErrors.dob = "Date of birth is required.";
+    if (!formData.gender) newErrors.gender = "Gender is required.";
+    if (!formData.course) newErrors.course = "Course selection is required.";
+    // if (!formData.marksheet) newErrors.marksheet = "Marksheet is required.";
+
     setErrors(newErrors);
     return valid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      toast.success("Form submitted successfully!");
-      onClose(); // Close the modal after submission
-    } else {
-      toast.error("Please fill out all required fields.");
+  
+  const handleSubmission = async (event) => {
+    event.preventDefault();
+    const { name, email, phone, dob, gender, course } = formData;
+
+    try {
+      const response = await fetch("/api/students/admissionForm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone: phone,
+          dob: dob,
+          gender: gender.toUpperCase(),
+          course : course.toUpperCase(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || "Failed to submit the form.");
+        return;
+      }
+
+      toast.success(data.message || "Form submitted successfully!");
+      router.push("/student");
+      onClose();
+    } catch (error) {
+      console.error("Error during form submission:", error);
+      toast.error("An error occurred. Please try again.");
     }
   };
-
-  const isFormIncomplete =
-    !formData.name ||
-    !formData.email ||
-    !formData.phone ||
-    !formData.dob ||
-    !formData.gender ||
-    !formData.course ||
-    !formData.marksheet;
 
   if (!isOpen) return null;
   return (
@@ -144,7 +152,8 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <h2 className="text-2xl font-bold mb-4 text-black">
           Student Registration
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmission}>
+          
           {/* Student Name */}
           <div className="mb-4">
             <label
@@ -273,9 +282,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
             >
               <option value="">Select your course</option>
-              <option value="it">Information Technology</option>
-              <option value="ds">Data Science</option>
-              <option value="cs">Computer Science</option>
+              <option value="IT">Information Technology</option>
+              <option value="CS">Computer Science</option>
+              <option value="DS">Data Science</option>
             </select>
             {errors.course && (
               <p className="text-sm text-red-500 mt-1">{errors.course}</p>
@@ -311,7 +320,8 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               variant="default"
               size="sm"
               disabled={isFormIncomplete}
-              className="bg-green-400" // Disable button if form is incomplete
+              className="bg-green-400" 
+             
             >
               Submit
             </Button>

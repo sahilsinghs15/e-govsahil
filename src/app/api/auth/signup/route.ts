@@ -37,10 +37,11 @@ export async function POST(req: Request) {
     });
     await newUser.save();
 
-    return NextResponse.json(
-      { message: "User created successfully" },
-      { status: 201 }
-    );
+    return NextResponse.json({
+      message : "User created successfully",
+      newUser,
+      
+    });
   } catch (error) {
     console.error("Error during user creation:", error);
     return NextResponse.json(

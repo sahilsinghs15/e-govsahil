@@ -1,9 +1,9 @@
 import mongoose,{Schema , Document} from "mongoose";
 
 enum Gender {
-    Male = "Male",
-    Female = "Female",
-    Other = "Other"
+    MALE = "MALE",
+    FEMALE = "FEMALE",
+    OTHER = "OTHER",
 }
 
 enum Course{
@@ -15,24 +15,15 @@ enum Course{
 
 export interface studentInterface extends Document{
     userId : mongoose.Types.ObjectId;
-    studentName : string;
-    studentGender : Gender;
-    studentPhoneNumber : number;
-    studentDOB : Date;
-    studentRollNo? : string;
-    studentEmail : string;
-    studentPassword : string;
+    name : string;
+    email : string;
+    phone : number;
+    dob : Date;
+    gender : Gender;
     course : Course;
+    rollNo? : string;
     admitted ?: boolean;
-    feeReciept ?: {
-      studentId : string;
-      amount : number;
-      description : string;
-    }
-    studentMarksheet : {
-      public_id ?: string;
-      secure_url ?: string
-    };
+  
 }
 
 // Define the Student Schema
@@ -42,33 +33,12 @@ const studentSchema = new Schema<studentInterface>({
     required : true,
     ref : 'User'
   },
-  studentName: {
+  name: {
     required : true,
     type: String,
     trim: true,
   },
-
-  studentGender: {
-    required : true,
-    type: String,
-    enum: Object.values(Gender),
-  },
-
-  studentPhoneNumber: {
-    required : true,
-    type: Number,
-  },
-
-  studentDOB : {
-    type : Date,
-    required : true
-  },
-
-  studentRollNo: {
-    type: String,
-  },
-
-  studentEmail: {
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -76,10 +46,18 @@ const studentSchema = new Schema<studentInterface>({
     match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
   },
 
-  studentPassword: {
+  phone: {
+    required : true,
+    type: Number,
+  },
+  dob : {
+    type : Date,
+    required : true
+  },
+  gender: {
+    required : true,
     type: String,
-    required: true,
-    minlength: 6,
+    enum: Object.values(Gender),
   },
 
   course: {
@@ -88,15 +66,14 @@ const studentSchema = new Schema<studentInterface>({
     enum: Object.values(Course),
   },
 
+  rollNo: {
+    type: String,
+  },
+
   admitted :{
     type : Boolean,
     default : false
   },
-
-  studentMarksheet :{
-    public_id : {type : String,},
-    secure_url : {type : String},
-  }
 
 }, {
   timestamps: true,

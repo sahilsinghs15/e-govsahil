@@ -22,6 +22,7 @@ const Account = () => {
       toast.success("Logged out successfully!");
     } catch (error) {
       toast.error("Failed to log out. Please try again.");
+      console.log(error);
     }
   };
 

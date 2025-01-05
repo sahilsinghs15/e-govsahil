@@ -4,7 +4,7 @@ import React from "react";
 
 const ApplicationCard = ({ application }: { application: any }) => {
   return (
-    <div className="bg-gray-800 text-white shadow-md rounded-lg p-6 flex gap-6 items-center">
+    <div className=" text-white font-bold shadow-md rounded-lg p-6 flex gap-6 items-center h-56">
       {/* Profile Picture */}
       <img
         src={application.imageUrl}
@@ -13,7 +13,7 @@ const ApplicationCard = ({ application }: { application: any }) => {
       />
       {/* Application Details */}
       <div>
-        <h2 className="text-2xl font-bold mb-2">{application.name}</h2>
+        <h2 className="text-xl text-black font-medium  mb-2">{application.name}</h2>
         <p className="text-gray-300 mb-1">Email: {application.email}</p>
         <p className="text-gray-300 mb-1">Phone: {application.phone}</p>
         <p className="text-gray-300 mb-1">DOB: {application.dob}</p>
@@ -36,10 +36,7 @@ const YourApplicationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white py-10 px-4">
-      <h1 className="text-4xl font-bold text-center mb-8">
-        Your Application Details
-      </h1>
+    <div className="h-96  text-white py-10 px-4">
       <div className="max-w-4xl mx-auto">
         <ApplicationCard application={mockApplicationData} />
       </div>
