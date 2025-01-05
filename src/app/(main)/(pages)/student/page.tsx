@@ -15,12 +15,10 @@ export default function Student() {
 
         <div className="border-t border-gray-300 my-3"></div>
 
-        {/* Main Application Details Card */}
         <div className="bg-gradient-to-r from-indigo-600 to-purple-700 p-3 rounded-lg shadow-md">
           <YourApplicationPage />
         </div>
 
-        {/* Additional Information Section */}
         <div className="mt-4">
           <h2 className="text-xl font-semibold mb-3 text-gray-800">
             Important Notes
@@ -32,7 +30,6 @@ export default function Student() {
           </ul>
         </div>
 
-        {/* Footer */}
         <div className="mt-6 text-center">
           <button className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300">
             Download Application PDF

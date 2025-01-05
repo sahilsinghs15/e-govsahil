@@ -2,14 +2,22 @@ import { connectToDB } from "@/db/mongo";
 import Student from "@/models/Student_Registration";
 import { NextResponse } from "next/server";
 
-connectToDB();
 export async function GET(){
+  try{
+    await connectToDB();
     const studentsForm = await Student.find();
     return NextResponse.json({
         message : "Successfully fetched submitted forms",
         status : 200,
         studentForms : studentsForm
     })
+  }catch(error){
+    console.error(error);
+    return NextResponse.json({
+        error : "Error in fetching form data",
+        status : 500
+    })
+  }
 }
 
 export async function DELETE(req: Request) {
