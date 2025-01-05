@@ -1,7 +1,10 @@
 // app/layout.tsx
-import "./globals.css"; // Ensure this imports your global CSS styles
+
+import { Appbar } from "@/components/Appbar";
+import { Footer } from "@/components/Footer";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <div className="w-full pt-4 pb-3">
+          <Appbar />
+        </div>
         {children}
-        <Toaster /> {/* Add the Toaster here */}
+        <Footer />
       </body>
+      <Toaster/>
     </html>
   );
 }
