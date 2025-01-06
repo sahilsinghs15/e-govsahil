@@ -104,7 +104,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
 
   
-  const handleSubmission = async (event) => {
+  const handleSubmission = async (event:any) => {
     event.preventDefault();
     const { name, email, phone, dob, gender, course } = formData;
 

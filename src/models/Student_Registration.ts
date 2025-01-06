@@ -23,6 +23,7 @@ export interface studentInterface extends Document{
     course : Course;
     rollNo? : string;
     admitted ?: boolean;
+    accepted ?: boolean;
   
 }
 
@@ -74,6 +75,11 @@ const studentSchema = new Schema<studentInterface>({
     type : Boolean,
     default : false
   },
+
+  accepted :{
+    type : Boolean,
+    default : false
+  }
 
 }, {
   timestamps: true,

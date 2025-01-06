@@ -10,10 +10,22 @@ export default async function Home() {
     const session = await getServerSession();
     
 
-    if (!session?.user) {
-      return redirect("/signin");
+    if (!session) {
+      // Redirect to the sign-in page if no session exists
+      redirect("/signin");
     }
-
+    // // Check the user's role and redirect accordingly
+    // if (session.user.role === "Student") {
+    //   // Proceed to the Student Home Page
+    // } else if (
+    //   session.user.role === "AdmissionAdmin" ||
+    //   session.user.role === "SuperAdmin"
+    // ) {
+    //   redirect("/admin"); // Redirect to Admin Dashboard
+    // } else {
+    //   // Optionally handle cases for unexpected roles
+    //   redirect("/signin");
+    // }
 
   return (
     <div className="bg-[#100c14] min-h-screen flex">

@@ -1,7 +1,8 @@
-// app/layout.tsx
-import "./globals.css"; // Ensure this imports your global CSS styles
+import "./globals.css";
 import { Inter } from "next/font/google";
+import { SessionProviderWrapper } from "@/components/SessionProviderWrapper"; // Import the wrapper
 import { Toaster } from "react-hot-toast";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
-        <Toaster /> {/* Add the Toaster here */}
+        <SessionProviderWrapper>
+          {children}
+        </SessionProviderWrapper>
+
+        <Toaster />
       </body>
     </html>
   );
