@@ -4,9 +4,8 @@ import { connectToDB } from "@/db/mongo";
 import Fine from "@/models/Fine";
 
 export async function POST(req: Request) {
-  const { studentId, type, amount } = await req.json();
-
   try {
+    const { studentId, type, amount } = await req.json();
     await connectToDB();
 
     if (!studentId || !type || !amount) {

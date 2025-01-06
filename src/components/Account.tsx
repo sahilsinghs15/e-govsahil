@@ -44,7 +44,7 @@ const Account = () => {
         onClick={menuToggle}
       >
         <img
-          // src="/profile-picture.jpg" // Replace with your dynamic profile picture URL
+          src="https://avatar.iran.liara.run/public/boy?username=${user}"
           alt="Profile"
           className="w-full h-full object-cover"
         />

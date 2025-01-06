@@ -1,14 +1,18 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 
 interface ITransaction extends Document {
-    walletId: string;
+    walletId: mongoose.Types.ObjectId;
     amount: number;
     description: string;
 }
 
 const transactionSchema = new Schema<ITransaction>(
     {
-        walletId: { type: String, required: true },
+        walletId: { 
+            type : mongoose.Schema.Types.ObjectId,
+            required : true,
+            ref : 'Wallet' 
+        },
         amount: { type: Number, required: true },
         description: { type: String, required: true },
     },
