@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { StudentCard } from "./StudentCard"; // Ensure StudentCard component supports action buttons
 import { StudentModal } from "./StudentModal";
+import toast from "react-hot-toast";
 
 interface Student {
   _id: string;
@@ -59,6 +60,7 @@ const AdminHome: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to update student action");
       }
+      toast.success(`Student form ${action}ed successfully`);
 
       // Optionally update UI based on action
       setStudents((prevStudents) =>
@@ -99,18 +101,24 @@ const AdminHome: React.FC = () => {
           <div key={student._id} className="border p-4 rounded bg-white shadow">
             <StudentCard student={student} onClick={handleCardClick} />
             <div className="flex justify-between mt-4">
-              <button
-                onClick={() => handleAction(student._id, "accept")}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-              >
-                Accept
-              </button>
-              <button
-                onClick={() => handleAction(student._id, "reject")}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Reject
-              </button>
+              {student.accepted ? (
+                <span className="text-green-600 font-semibold">Verified</span>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleAction(student._id, "accept")}
+                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleAction(student._id, "reject")}
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  >
+                    Reject
+                  </button>
+                </>
+              )}
             </div>
           </div>
         ))}

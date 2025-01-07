@@ -5,6 +5,8 @@ import { X } from "lucide-react"; // Icon library
 import toast from "react-hot-toast"; // Notification library
 import { Input } from "./input";
 import { useRouter } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 interface ModalProps {
   isOpen: boolean;
@@ -77,7 +79,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     setFormData({ ...formData, marksheet: file });
     setErrors({ ...errors, marksheet: "" });
   };
-
+  
   const validateForm = () => {
     const valid = true;
     const newErrors: typeof errors = {

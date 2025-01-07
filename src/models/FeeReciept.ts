@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, models, model } from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
 // Define the Receipt interface
 export interface IReceipt extends Document {
@@ -34,6 +34,6 @@ const ReceiptSchema: Schema = new Schema<IReceipt>(
 );
 
 // Check if the model already exists (to avoid recompilation issues in Next.js)
-const Receipt = models.Receipt || model<IReceipt>("Receipt", ReceiptSchema);
+const Receipt = mongoose.models.Receipt || model<IReceipt>("Receipt", ReceiptSchema);
 
 export default Receipt;
